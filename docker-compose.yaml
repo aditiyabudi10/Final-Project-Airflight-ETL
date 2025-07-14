@@ -1,0 +1,83 @@
+version: "3.8"
+
+x-airflight-common:
+  &airflight-common
+  image: apache/airflow:2.9.1
+  environment:
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:adit@airflow-postgres:5432/flights_dw
+    AIRFLOW__CORE__FERNET_KEY: ''
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW_UID: ${AIRFLOW_UID:-50000}
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./logs:/opt/airflow/logs
+    - ./plugins:/opt/airflow/plugins
+    - ./scripts:/opt/airflow/scripts
+    - ./data:/opt/airflow/data
+  depends_on:
+    airflow-postgres:
+      condition: service_healthy
+
+services:
+  airflow-webserver:
+    <<: *airflight-common
+    container_name: airflow-webserver-v2
+    ports:
+      - "8088:8080"
+    command: webserver
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./scripts:/opt/airflow/scripts
+      - ./plugins:/opt/airflow/plugins
+      - ./data:/opt/airflow/data
+    depends_on:
+      - airflow-scheduler
+      - airflow-postgres
+
+  airflow-scheduler:
+    <<: *airflight-common
+    container_name: airflow-scheduler-v2
+    command: scheduler
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./scripts:/opt/airflow/scripts
+      - ./plugins:/opt/airflow/plugins
+      - ./data:/opt/airflow/data
+    depends_on:
+      - airflow-postgres
+
+  airflow-postgres:
+    image: postgres:13
+    container_name: airflow-postgres-v2
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: adit
+      POSTGRES_DB: flights_dw
+    volumes:
+      - postgres-db-volume:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+
+  airflow-init:
+    <<: *airflight-common
+    container_name: airflow-init-v2
+    entrypoint: >
+      /bin/bash -c "
+      airflow db migrate &&
+      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
+      "
+    depends_on:
+      airflow-postgres:
+        condition: service_healthy
+
+volumes:
+  postgres-db-volume:
