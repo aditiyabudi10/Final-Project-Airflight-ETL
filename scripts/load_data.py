@@ -15,11 +15,11 @@ def load_etl(input_file,
     Args:
         input_file (str): path to parquet file
         table_name (str): target table in PostgreSQL
-        db_user (str): database username (root)
-        db_pass (str): database password (dibimbing)
-        db_host (str): database host (airflow-postgres)
-        db_port (int): database port (5432)
-        db_name (str): database name (flights_dw)
+        db_user (str): database username
+        db_pass (str): database password
+        db_host (str): database host
+        db_port (int): database port
+        db_name (str): database name
     """
     # Baca file parquet
     df = pd.read_parquet(input_file)

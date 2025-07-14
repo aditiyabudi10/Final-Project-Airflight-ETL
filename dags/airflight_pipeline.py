@@ -2,6 +2,7 @@ import os
 import sys
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.utils.task_group import TaskGroup
 from datetime import datetime, timedelta
 
 # Pastikan /opt/airflow sudah ada di sys.path sebelum import scripts
@@ -28,16 +29,19 @@ with DAG(
     catchup=False
 ) as dag:
 
-    extract_data = PythonOperator(
-        task_id='extract',
-        python_callable=extract_etl,
-        op_kwargs={
-            'input_file': '/opt/airflow/data/hflights.csv',
-            'output_file': '/opt/airflow/data/output/extracted_batch.csv',
-            'batch_number': 1,  # ganti logic kalau mau otomatis bertahap
-            'batch_size': 5000
-        }
-    )
+    # TaskGroup untuk paralel extract
+    with TaskGroup('extract_task', tooltip='Extraxt Batch') as extract_task:
+        for i in range(1, 6):  # contoh 5 batch
+            extract_data = PythonOperator(
+                task_id=f'extract{i}',
+                python_callable=extract_etl,
+                op_kwargs={
+                    'input_file': '/opt/airflow/data/hflights.csv',
+                    'output_file': f'/opt/airflow/data/output/extracted_batch{i}.csv',
+                    'batch_number': i,
+                    'batch_size': 5000
+                }
+            )
 
     transform_data = PythonOperator(
         task_id='transform',
