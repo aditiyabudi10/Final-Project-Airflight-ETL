@@ -1,0 +1,20 @@
+[2025-07-14T06:26:01.277+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-07-14T06:26:01.323+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: airflights_etl_pipeline.extract_task.extract4 scheduled__2025-07-14T06:24:00+00:00 [queued]>
+[2025-07-14T06:26:01.333+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: airflights_etl_pipeline.extract_task.extract4 scheduled__2025-07-14T06:24:00+00:00 [queued]>
+[2025-07-14T06:26:01.361+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-07-14T06:26:01.381+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): extract_task.extract4> on 2025-07-14 06:24:00+00:00
+[2025-07-14T06:26:01.395+0000] {standard_task_runner.py:90} INFO - Running: ['airflow', 'tasks', 'run', 'airflights_etl_pipeline', 'extract_task.extract4', 'scheduled__2025-07-14T06:24:00+00:00', '--job-id', '832', '--raw', '--subdir', 'DAGS_FOLDER/airflight_pipeline.py', '--cfg-path', '/tmp/tmpi_121if2']
+[2025-07-14T06:26:01.396+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=4776) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-07-14T06:26:01.398+0000] {standard_task_runner.py:91} INFO - Job 832: Subtask extract_task.extract4
+[2025-07-14T06:26:01.398+0000] {standard_task_runner.py:63} INFO - Started process 4788 to run task
+[2025-07-14T06:26:01.430+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/settings.py:195 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-07-14T06:26:01.482+0000] {task_command.py:426} INFO - Running <TaskInstance: airflights_etl_pipeline.extract_task.extract4 scheduled__2025-07-14T06:24:00+00:00 [running]> on host 5a1293588d06
+[2025-07-14T06:26:01.990+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='airflights_etl_pipeline' AIRFLOW_CTX_TASK_ID='extract_task.extract4' AIRFLOW_CTX_EXECUTION_DATE='2025-07-14T06:24:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-07-14T06:24:00+00:00'
+[2025-07-14T06:26:01.993+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-07-14T06:26:02.180+0000] {logging_mixin.py:188} INFO - Extracted batch 4 to /opt/airflow/data/output/extracted_batch4.csv
+[2025-07-14T06:26:02.181+0000] {python.py:237} INFO - Done. Returned value was: None
+[2025-07-14T06:26:02.182+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-07-14T06:26:02.217+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=airflights_etl_pipeline, task_id=extract_task.extract4, run_id=scheduled__2025-07-14T06:24:00+00:00, execution_date=20250714T062400, start_date=20250714T062601, end_date=20250714T062602
+[2025-07-14T06:26:02.338+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-07-14T06:26:02.370+0000] {taskinstance.py:3498} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-07-14T06:26:02.374+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

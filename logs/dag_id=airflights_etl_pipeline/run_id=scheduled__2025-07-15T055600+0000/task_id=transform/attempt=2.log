@@ -1,0 +1,55 @@
+[2025-07-15T05:59:04.562+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-07-15T05:59:04.586+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: airflights_etl_pipeline.transform scheduled__2025-07-15T05:56:00+00:00 [queued]>
+[2025-07-15T05:59:04.594+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: airflights_etl_pipeline.transform scheduled__2025-07-15T05:56:00+00:00 [queued]>
+[2025-07-15T05:59:04.596+0000] {taskinstance.py:2306} INFO - Starting attempt 2 of 2
+[2025-07-15T05:59:04.607+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): transform> on 2025-07-15 05:56:00+00:00
+[2025-07-15T05:59:04.614+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=5341) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-07-15T05:59:04.615+0000] {standard_task_runner.py:63} INFO - Started process 5343 to run task
+[2025-07-15T05:59:04.615+0000] {standard_task_runner.py:90} INFO - Running: ['airflow', 'tasks', 'run', 'airflights_etl_pipeline', 'transform', 'scheduled__2025-07-15T05:56:00+00:00', '--job-id', '2291', '--raw', '--subdir', 'DAGS_FOLDER/airflight_pipeline.py', '--cfg-path', '/tmp/tmpe8g49lts']
+[2025-07-15T05:59:04.616+0000] {standard_task_runner.py:91} INFO - Job 2291: Subtask transform
+[2025-07-15T05:59:04.628+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/settings.py:195 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-07-15T05:59:04.658+0000] {task_command.py:426} INFO - Running <TaskInstance: airflights_etl_pipeline.transform scheduled__2025-07-15T05:56:00+00:00 [running]> on host 5a1293588d06
+[2025-07-15T05:59:04.884+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='airflights_etl_pipeline' AIRFLOW_CTX_TASK_ID='transform' AIRFLOW_CTX_EXECUTION_DATE='2025-07-15T05:56:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-07-15T05:56:00+00:00'
+[2025-07-15T05:59:04.885+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-07-15T05:59:04.895+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-07-15T05:59:04.895+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/scripts/transform_data.py", line 5, in transform_etl
+    df = pd.read_csv(input_file)
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 948, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 611, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1448, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/parsers/readers.py", line 1705, in _make_engine
+    self.handles = get_handle(
+                   ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/common.py", line 863, in get_handle
+    handle = open(
+             ^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/opt/airflow/data/extracted_batch.csv'
+[2025-07-15T05:59:04.907+0000] {taskinstance.py:1206} INFO - Marking task as FAILED. dag_id=airflights_etl_pipeline, task_id=transform, run_id=scheduled__2025-07-15T05:56:00+00:00, execution_date=20250715T055600, start_date=20250715T055904, end_date=20250715T055904
+[2025-07-15T05:59:04.919+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 2291 for task transform ([Errno 2] No such file or directory: '/opt/airflow/data/extracted_batch.csv'; 5343)
+[2025-07-15T05:59:04.949+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2025-07-15T05:59:04.968+0000] {taskinstance.py:3498} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-07-15T05:59:04.974+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

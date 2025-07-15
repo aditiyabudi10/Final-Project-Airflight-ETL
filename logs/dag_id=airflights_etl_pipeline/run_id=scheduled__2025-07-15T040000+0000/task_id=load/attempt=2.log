@@ -1,0 +1,37 @@
+[2025-07-15T04:03:07.254+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-07-15T04:03:07.293+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: airflights_etl_pipeline.load scheduled__2025-07-15T04:00:00+00:00 [queued]>
+[2025-07-15T04:03:07.305+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: airflights_etl_pipeline.load scheduled__2025-07-15T04:00:00+00:00 [queued]>
+[2025-07-15T04:03:07.339+0000] {taskinstance.py:2306} INFO - Starting attempt 2 of 2
+[2025-07-15T04:03:07.360+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): load> on 2025-07-15 04:00:00+00:00
+[2025-07-15T04:03:07.374+0000] {standard_task_runner.py:90} INFO - Running: ['airflow', 'tasks', 'run', 'airflights_etl_pipeline', 'load', 'scheduled__2025-07-15T04:00:00+00:00', '--job-id', '1819', '--raw', '--subdir', 'DAGS_FOLDER/airflight_pipeline.py', '--cfg-path', '/tmp/tmpgamvb156']
+[2025-07-15T04:03:07.375+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=2381) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-07-15T04:03:07.377+0000] {standard_task_runner.py:91} INFO - Job 1819: Subtask load
+[2025-07-15T04:03:07.378+0000] {standard_task_runner.py:63} INFO - Started process 2383 to run task
+[2025-07-15T04:03:07.404+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/settings.py:195 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-07-15T04:03:07.460+0000] {task_command.py:426} INFO - Running <TaskInstance: airflights_etl_pipeline.load scheduled__2025-07-15T04:00:00+00:00 [running]> on host 5a1293588d06
+[2025-07-15T04:03:07.788+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='airflights_etl_pipeline' AIRFLOW_CTX_TASK_ID='load' AIRFLOW_CTX_EXECUTION_DATE='2025-07-15T04:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-07-15T04:00:00+00:00'
+[2025-07-15T04:03:07.790+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-07-15T04:03:07.801+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-07-15T04:03:07.802+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: load_etl() missing 2 required positional arguments: 'summary_file' and 'full_file'
+[2025-07-15T04:03:07.813+0000] {taskinstance.py:1206} INFO - Marking task as FAILED. dag_id=airflights_etl_pipeline, task_id=load, run_id=scheduled__2025-07-15T04:00:00+00:00, execution_date=20250715T040000, start_date=20250715T040307, end_date=20250715T040307
+[2025-07-15T04:03:07.859+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 1819 for task load (load_etl() missing 2 required positional arguments: 'summary_file' and 'full_file'; 2383)
+[2025-07-15T04:03:07.874+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2025-07-15T04:03:07.891+0000] {taskinstance.py:3498} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-07-15T04:03:07.899+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

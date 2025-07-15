@@ -1,7 +1,12 @@
 import pandas as pd
 
 
-def extract_etl(input_file, output_file, batch_number, batch_size=5000):
+def extract_etl(
+    input_file,
+    output_file,
+    batch_number,
+    batch_size=5000
+):
     skip_rows = 1 + (batch_number - 1) * batch_size
     df = pd.read_csv(
         input_file,

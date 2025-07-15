@@ -1,0 +1,111 @@
+[2025-07-15T03:22:05.471+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-07-15T03:22:05.516+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: airflights_etl_pipeline.load scheduled__2025-07-15T03:20:00+00:00 [queued]>
+[2025-07-15T03:22:05.527+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: airflights_etl_pipeline.load scheduled__2025-07-15T03:20:00+00:00 [queued]>
+[2025-07-15T03:22:05.558+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-07-15T03:22:05.575+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): load> on 2025-07-15 03:20:00+00:00
+[2025-07-15T03:22:05.585+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=1076) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-07-15T03:22:05.584+0000] {standard_task_runner.py:90} INFO - Running: ['airflow', 'tasks', 'run', 'airflights_etl_pipeline', 'load', 'scheduled__2025-07-15T03:20:00+00:00', '--job-id', '1610', '--raw', '--subdir', 'DAGS_FOLDER/airflight_pipeline.py', '--cfg-path', '/tmp/tmpqr5yncp3']
+[2025-07-15T03:22:05.586+0000] {standard_task_runner.py:63} INFO - Started process 1078 to run task
+[2025-07-15T03:22:05.586+0000] {standard_task_runner.py:91} INFO - Job 1610: Subtask load
+[2025-07-15T03:22:05.603+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/settings.py:195 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-07-15T03:22:05.641+0000] {task_command.py:426} INFO - Running <TaskInstance: airflights_etl_pipeline.load scheduled__2025-07-15T03:20:00+00:00 [running]> on host 5a1293588d06
+[2025-07-15T03:22:05.926+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='airflights_etl_pipeline' AIRFLOW_CTX_TASK_ID='load' AIRFLOW_CTX_EXECUTION_DATE='2025-07-15T03:20:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-07-15T03:20:00+00:00'
+[2025-07-15T03:22:05.928+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-07-15T03:22:06.009+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-07-15T03:22:06.009+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+psycopg2.errors.UndefinedColumn: column "DepDelay" of relation "flights_summary" does not exist
+LINE 1: INSERT INTO flights_summary ("UniqueCarrier", "DepDelay", "A...
+                                                      ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/baseoperator.py", line 400, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/scripts/load_data.py", line 35, in load_etl
+    df.to_sql(table_name, connection, if_exists='append', index=False)
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/util/_decorators.py", line 333, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/core/generic.py", line 3008, in to_sql
+    return sql.to_sql(
+           ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 788, in to_sql
+    return pandas_sql.to_sql(
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1958, in to_sql
+    total_inserted = sql_engine.insert_records(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1507, in insert_records
+    raise err
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1498, in insert_records
+    return table.insert(chunksize=chunksize, method=method)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 1059, in insert
+    num_inserted = exec_insert(conn, keys, chunk_iter)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/pandas/io/sql.py", line 951, in _execute_insert
+    result = conn.execute(self.table.insert(), data)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1385, in execute
+    return meth(self, multiparams, params, _EMPTY_EXECUTION_OPTS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1577, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1953, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 2134, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/engine/base.py", line 1890, in _execute_context
+    self.dialect.do_executemany(
+  File "/home/airflow/.local/lib/python3.12/site-packages/sqlalchemy/dialects/postgresql/psycopg2.py", line 982, in do_executemany
+    context._psycopg2_fetched_rows = xtras.execute_values(
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.12/site-packages/psycopg2/extras.py", line 1299, in execute_values
+    cur.execute(b''.join(parts))
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column "DepDelay" of relation "flights_summary" does not exist
+LINE 1: INSERT INTO flights_summary ("UniqueCarrier", "DepDelay", "A...
+                                                      ^
+
+[SQL: INSERT INTO flights_summary ("UniqueCarrier", "DepDelay", "ArrDelay") VALUES (%(UniqueCarrier)s, %(DepDelay)s, %(ArrDelay)s)]
+[parameters: ({'UniqueCarrier': 'AA', 'DepDelay': 0.0, 'ArrDelay': -10.0}, {'UniqueCarrier': 'AA', 'DepDelay': 1.0, 'ArrDelay': -9.0}, {'UniqueCarrier': 'AA', 'DepDelay': -8.0, 'ArrDelay': -8.0}, {'UniqueCarrier': 'AA', 'DepDelay': 3.0, 'ArrDelay': 3.0}, {'UniqueCarrier': 'AA', 'DepDelay': 5.0, 'ArrDelay': -3.0}, {'UniqueCarrier': 'AA', 'DepDelay': -1.0, 'ArrDelay': -7.0}, {'UniqueCarrier': 'AA', 'DepDelay': -1.0, 'ArrDelay': -1.0}, {'UniqueCarrier': 'AA', 'DepDelay': -5.0, 'ArrDelay': -16.0}  ... displaying 10 of 4935 total bound parameter sets ...  {'UniqueCarrier': 'CO', 'DepDelay': -1.0, 'ArrDelay': 0.0}, {'UniqueCarrier': 'CO', 'DepDelay': 4.0, 'ArrDelay': 1.0})]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+[2025-07-15T03:22:06.027+0000] {taskinstance.py:1206} INFO - Marking task as UP_FOR_RETRY. dag_id=airflights_etl_pipeline, task_id=load, run_id=scheduled__2025-07-15T03:20:00+00:00, execution_date=20250715T032000, start_date=20250715T032205, end_date=20250715T032206
+[2025-07-15T03:22:06.048+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 1610 for task load ((psycopg2.errors.UndefinedColumn) column "DepDelay" of relation "flights_summary" does not exist
+LINE 1: INSERT INTO flights_summary ("UniqueCarrier", "DepDelay", "A...
+                                                      ^
+
+[SQL: INSERT INTO flights_summary ("UniqueCarrier", "DepDelay", "ArrDelay") VALUES (%(UniqueCarrier)s, %(DepDelay)s, %(ArrDelay)s)]
+[parameters: ({'UniqueCarrier': 'AA', 'DepDelay': 0.0, 'ArrDelay': -10.0}, {'UniqueCarrier': 'AA', 'DepDelay': 1.0, 'ArrDelay': -9.0}, {'UniqueCarrier': 'AA', 'DepDelay': -8.0, 'ArrDelay': -8.0}, {'UniqueCarrier': 'AA', 'DepDelay': 3.0, 'ArrDelay': 3.0}, {'UniqueCarrier': 'AA', 'DepDelay': 5.0, 'ArrDelay': -3.0}, {'UniqueCarrier': 'AA', 'DepDelay': -1.0, 'ArrDelay': -7.0}, {'UniqueCarrier': 'AA', 'DepDelay': -1.0, 'ArrDelay': -1.0}, {'UniqueCarrier': 'AA', 'DepDelay': -5.0, 'ArrDelay': -16.0}  ... displaying 10 of 4935 total bound parameter sets ...  {'UniqueCarrier': 'CO', 'DepDelay': -1.0, 'ArrDelay': 0.0}, {'UniqueCarrier': 'CO', 'DepDelay': 4.0, 'ArrDelay': 1.0})]
+(Background on this error at: https://sqlalche.me/e/14/f405); 1078)
+[2025-07-15T03:22:06.082+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 1
+[2025-07-15T03:22:06.098+0000] {taskinstance.py:3498} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-07-15T03:22:06.133+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
