@@ -1,0 +1,37 @@
+[2025-07-15T08:50:05.759+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-07-15T08:50:05.795+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: airflights_etl_pipeline.transform scheduled__2025-07-15T08:48:00+00:00 [queued]>
+[2025-07-15T08:50:05.808+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: airflights_etl_pipeline.transform scheduled__2025-07-15T08:48:00+00:00 [queued]>
+[2025-07-15T08:50:05.841+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-07-15T08:50:05.858+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): transform> on 2025-07-15 08:48:00+00:00
+[2025-07-15T08:50:05.870+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=10321) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-07-15T08:50:05.869+0000] {standard_task_runner.py:90} INFO - Running: ['airflow', 'tasks', 'run', 'airflights_etl_pipeline', 'transform', 'scheduled__2025-07-15T08:48:00+00:00', '--job-id', '2991', '--raw', '--subdir', 'DAGS_FOLDER/airflight_pipeline.py', '--cfg-path', '/tmp/tmpx3dk53st']
+[2025-07-15T08:50:05.871+0000] {standard_task_runner.py:63} INFO - Started process 10323 to run task
+[2025-07-15T08:50:05.872+0000] {standard_task_runner.py:91} INFO - Job 2991: Subtask transform
+[2025-07-15T08:50:05.896+0000] {logging_mixin.py:188} WARNING - /home/airflow/.local/lib/python3.12/site-packages/airflow/settings.py:195 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-07-15T08:50:05.936+0000] {task_command.py:426} INFO - Running <TaskInstance: airflights_etl_pipeline.transform scheduled__2025-07-15T08:48:00+00:00 [running]> on host 5a1293588d06
+[2025-07-15T08:50:06.296+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='airflights_etl_pipeline' AIRFLOW_CTX_TASK_ID='transform' AIRFLOW_CTX_EXECUTION_DATE='2025-07-15T08:48:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-07-15T08:48:00+00:00'
+[2025-07-15T08:50:06.298+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-07-15T08:50:06.417+0000] {logging_mixin.py:188} INFO - total rows after combining: 25000
+[2025-07-15T08:50:06.423+0000] {logging_mixin.py:188} INFO - Dropped 563 rows with missing DepDelay or ArrDelay.
+[2025-07-15T08:50:06.439+0000] {logging_mixin.py:188} INFO - Transformed data shape:       UniqueCarrier  DepDelay  ArrDelay  DepTime  TimeOfDay
+0                AA       0.0     -10.0   1400.0  Afternoon
+1                AA       1.0      -9.0   1401.0  Afternoon
+2                AA      -8.0      -8.0   1352.0  Afternoon
+3                AA       3.0       3.0   1403.0  Afternoon
+4                AA       5.0      -3.0   1405.0  Afternoon
+...             ...       ...       ...      ...        ...
+24995            WN      14.0       7.0   1619.0  Afternoon
+24996            WN       3.0      -3.0   1338.0  Afternoon
+24997            WN      14.0       6.0   2059.0    Evening
+24998            WN       1.0     -26.0   1806.0    Evening
+24999            WN      18.0      15.0   1633.0  Afternoon
+
+[24437 rows x 5 columns]
+[2025-07-15T08:50:06.484+0000] {logging_mixin.py:188} INFO - Transformed data saved to: /opt/airflow/data/output/hflights_day.parquet
+[2025-07-15T08:50:06.505+0000] {logging_mixin.py:188} INFO - Transformed data saved to: /opt/airflow/data/output/hflights_summary.parquet
+[2025-07-15T08:50:06.507+0000] {python.py:237} INFO - Done. Returned value was: None
+[2025-07-15T08:50:06.508+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-07-15T08:50:06.521+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=airflights_etl_pipeline, task_id=transform, run_id=scheduled__2025-07-15T08:48:00+00:00, execution_date=20250715T084800, start_date=20250715T085005, end_date=20250715T085006
+[2025-07-15T08:50:06.568+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-07-15T08:50:06.596+0000] {taskinstance.py:3498} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-07-15T08:50:06.618+0000] {local_task_job_runner.py:222} INFO - ::endgroup::

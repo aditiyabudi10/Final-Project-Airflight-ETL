@@ -79,5 +79,51 @@ services:
       airflow-postgres:
         condition: service_healthy
 
+  metabase:
+    image: metabase/metabase:latest
+    container_name: metabase
+    restart: always
+    # hostname: metabase
+    # volumes:
+    #   - /dev/urandom:/dev/random:ro
+    ports:
+      - "3000:3000"
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabaseappdb
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase
+      MB_DB_PASS: mysecretpassword
+      MB_DB_HOST: metabase-postgres
+    # networks:
+    #   - metanet1
+    depends_on:
+      - metabase-postgres
+    healthcheck:
+      test: curl --fail -I http://localhost:3000/api/health || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  metabase-postgres:
+    image: postgres:13
+    container_name: metabase-postgres
+    restart: always
+    # hostname: postgres
+    environment:
+      POSTGRES_USER: metabase
+      POSTGRES_DB: metabaseappdb
+      POSTGRES_PASSWORD: mysecretpassword
+#     networks:
+#       - metanet1
+# networks:
+#   metanet1:
+#     driver: bridge
+    volumes:
+      - metabase-db-volume:/var/lib/postgresql/data
+
+
 volumes:
   postgres-db-volume:
+  metabase-db-volume:
+
